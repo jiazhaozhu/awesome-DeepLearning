@@ -125,41 +125,36 @@ PaddleDetection提供了很多目标检测模型，考虑到不同模型精度�
 * EvalReader：测试预处理参数，可以增加、修改数据增强方法和参数；
 * architecture：检测模型结构，包含backbone、neck、head和post_process；
 
-
-%cd /home/aistudio/data/data131575/
-%unzip data.zip
-%mv voc_duke/ /home/aistudio/work/paddlecode/
-%mv finetune_model/ /home/aistudio/work/paddlecode/
+```Shell
 # GPU训练
-%cd /home/aistudio/work/paddlecode/
 # 通过修改yml配置文件来训练不同结构检测模型
 # 服务端ppyolov2模型训练
-!python -m paddle.distributed.launch --log_dir=./ppyolo_dygraph/ --gpus 0 tools/train.py -c configs/ppyolo/ppyolov2_r50vd_dcn_voc_tea.yml
+python -m paddle.distributed.launch --log_dir=./ppyolo_dygraph/ --gpus 0 tools/train.py -c configs/ppyolo/ppyolov2_r50vd_dcn_voc_tea.yml
 # 移动端PicoDet模型训练
-!python -m paddle.distributed.launch --log_dir=./ppyolo_dygraph/ --gpus 0 tools/train.py -c configs/picodet/picodet_s_640_voc_tea.yml
+python -m paddle.distributed.launch --log_dir=./ppyolo_dygraph/ --gpus 0 tools/train.py -c configs/picodet/picodet_s_640_voc_tea.yml
+```
 
 ## 6 模型评估
 本方案采用MAP作为评价标准，测试命令如下：
-
-%cd /home/aistudio/work/paddlecode/
+```Shell
 # 通过修改yml配置文件与模型文件目录来测试不同模型
 # 服务端ppyolov2模型评估
-!CUDA_VISIBLE_DEVICES=0 python tools/eval.py -c configs/ppyolo/ppyolov2_r50vd_dcn_voc_tea.yml -o weights=output/ppyolov2_r50vd_dcn_voc_tea/best_model
+CUDA_VISIBLE_DEVICES=0 python tools/eval.py -c configs/ppyolo/ppyolov2_r50vd_dcn_voc_tea.yml -o weights=output/ppyolov2_r50vd_dcn_voc_tea/best_model
 
 # 移动端PicoDet模型评估
-!CUDA_VISIBLE_DEVICES=0 python tools/eval.py -c configs/picodet/picodet_s_640_voc_tea.yml -o weights=output/picodet_s_640_voc_tea/best_model
-
+CUDA_VISIBLE_DEVICES=0 python tools/eval.py -c configs/picodet/picodet_s_640_voc_tea.yml -o weights=output/picodet_s_640_voc_tea/best_model
+```
 ## 7 模型预测
 
 加载训练好的模型，默认置信度阈值设置为0.5，执行下行命令对验证集或测试集图片进行预测：
 
-
+```Shell
 # 推理单张图片
-!CUDA_VISIBLE_DEVICES=0 python tools/infer.py -c configs/ppyolo/ppyolov2_r50vd_dcn_voc_tea.yml -o weights=output/ppyolov2_r50vd_dcn_voc_tea/best_model.pdparams --infer_img=demo/tea_rename/1616810135.jpg
+CUDA_VISIBLE_DEVICES=0 python tools/infer.py -c configs/ppyolo/ppyolov2_r50vd_dcn_voc_tea.yml -o weights=output/ppyolov2_r50vd_dcn_voc_tea/best_model.pdparams --infer_img=demo/tea_rename/1616810135.jpg
 
 # 推理文件夹里全部图片
 !CUDA_VISIBLE_DEVICES=0 python tools/infer.py -c configs/ppyolo/ppyolov2_r50vd_dcn_voc_tea.yml -o weights=output/ppyolov2_r50vd_dcn_voc_tea/best_model.pdparams --infer_dir=demo/tea_rename/
-
+```
 
 可视化预测结果示例如下，可以看出老师动作可以有效检测出来：
 <center><img src='https://ai-studio-static-online.cdn.bcebos.com/5fbbc6561fc647f08a6cd1441e86a0b5cd564defc5bf40f8bcbcc3dcd335ba9c' width='700'></center>
@@ -168,39 +163,30 @@ PaddleDetection提供了很多目标检测模型，考虑到不同模型精度�
 
 在模型训练过程中保存的模型文件是包含前向预测和反向传播的过程，在实际的工业部署则不需要反向传播，因此需要将模型进行导成部署需要的模型格式。 执行下面命令，即可导出模型
 
-%cd /home/aistudio/work/paddlecode/
+```Shell
 # paddle inference模型导出(移动端)
-!python tools/export_model.py -c configs/picodet/picodet_s_640_voc_tea.yml -o weights=output/picodet_s_640_voc_tea/best_model.pdparams --output_dir output_inference_mobile
+python tools/export_model.py -c configs/picodet/picodet_s_640_voc_tea.yml -o weights=output/picodet_s_640_voc_tea/best_model.pdparams --output_dir output_inference_mobile
 # paddle serving 模型导出
-!python tools/export_model.py -c configs/ppyolo/ppyolov2_r50vd_dcn_voc_tea.yml -o weights=output/ppyolov2_r50vd_dcn_voc_tea/best_model.pdparams --export_serving_model=True --output_dir output_inference
-
+python tools/export_model.py -c configs/ppyolo/ppyolov2_r50vd_dcn_voc_tea.yml -o weights=output/ppyolov2_r50vd_dcn_voc_tea/best_model.pdparams --export_serving_model=True --output_dir output_inference
+```
 * 更多关于模型导出的文档，请参考[PaddleDetection模型导出教程](https://github.com/PaddlePaddle/PaddleDetection/blob/release/2.3/deploy/EXPORT_MODEL.md)
 
 ## 9 模型部署推理
 
-接下来使用Paddle Inference python高性能预测接口，在终端输入以下代码即可：
-
+接下来使用Paddle Inference python高性能预测接口，在终端输入以下命令即可：
+```Shell
 # 移动端模型推理
 !python deploy/python/infer.py --model_dir=./output_inference_mobile/picodet_s_640_voc_tea/ --image_file=./demo/tea_rename/1616809969.jpg --device=GPU
 
 # 服务端模型推理
-
-%cd /home/aistudio/work
-!tar -xzvf TensorRT6-cuda10.1-cudnn7.tar.gz
-
-# # 由于paddle serving需要额外依赖依赖  所以需要设置环境变量
-!echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/aistudio/work/TensorRT6-cuda10.1-cudnn7/lib' >> ~/.bashrc
-!echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/aistudio/work/centos_ssl' >> ~/.bashrc
-!source ~/.bashrc
-
 # # 开启服务
-%cd /home/aistudio/work/paddlecode/output_inference/ppyolov2_r50vd_dcn_voc_tea
-!python -m paddle_serving_server.serve --model serving_server --port 9392 --gpu_ids 0
+cd /home/aistudio/work/paddlecode/output_inference/ppyolov2_r50vd_dcn_voc_tea
+python -m paddle_serving_server.serve --model serving_server --port 9392 --gpu_ids 0
 
 # 测试服务
-%cd /home/aistudio/work/paddlecode/output_inference/ppyolov2_r50vd_dcn_voc_tea
-!python ../../deploy/serving/test_client.py ../../voc_duke/voc_teacher/label_list.txt ../../demo/tea_rename/1616809969.jpg
-
+cd /home/aistudio/work/paddlecode/output_inference/ppyolov2_r50vd_dcn_voc_tea
+python ../../deploy/serving/test_client.py ../../voc_duke/voc_teacher/label_list.txt ../../demo/tea_rename/1616809969.jpg
+```
 
 ## 10 模型优化
 
