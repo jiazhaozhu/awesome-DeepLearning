@@ -2,7 +2,7 @@
 
 课堂教学行为合规检查作为教务管理重要的一环，对提高教师教学质量，促进教评管理，深化教育改革均有重要意义。传统教学监督主要依靠人力完成，耗时耗力，效率低下。
 
-新东方AI研究院针对该问题，利用飞桨[PaddleDetection](https://github.com/PaddlePaddle/PaddleDetection)的目标检测技术，提出一种自动化检测方案，可以有效检测老师和学生的动作行为，帮助相关人员及时应对，对规范相关人员行为有重要意义，模型效果如图所示。
+新东方AI研究院针对该问题，利用飞桨[PaddleDetection](https://github.com/PaddlePaddle/PaddleDetection)的目标检测技术，提出一种自动化检测方案，可以有效检测老师和学生的动作行为，帮助相关人员及时应对，对规范相关人员行为有重要意义，模型效果如图所示。训练及部署教程参考[AI Studio项目](https://aistudio.baidu.com/aistudio/projectdetail/3510661?contributionType=1)
 <center><img src='https://ai-studio-static-online.cdn.bcebos.com/73072401f7d54d5d873990d52deb0be0c40e436ebd404d128f1cbbc6800a3dfd' width=700></center>
 
 
