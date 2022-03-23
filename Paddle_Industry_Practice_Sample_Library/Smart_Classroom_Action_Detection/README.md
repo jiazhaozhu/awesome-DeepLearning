@@ -300,6 +300,6 @@ python ../../deploy/serving/test_client.py ../../voc_duke/voc_teacher/label_list
 ## 11 督课整体方案
 
 
-<center><img src='https://ai-studio-static-online.cdn.bcebos.com/69eb979d57b240ceac37879532c3d5838b1e035ca9b04a3c809df48bbc1a444d' width=1000></center>
+<center><img src='https://ai-studio-static-online.cdn.bcebos.com/626083d956ac432485f3bf377003aed489613f07f6f145b687ea20ca92204f84' width=1000></center>
 
 
