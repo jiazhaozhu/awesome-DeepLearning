@@ -245,7 +245,6 @@ python ../../deploy/serving/test_client.py ../../voc_duke/voc_teacher/label_list
   ```
 
 
-
 #### 10.2 不同模型结果
 我们修改不同配置文件，进行如下实验进行动作检测模型初步优化
 
