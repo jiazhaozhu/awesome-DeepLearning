@@ -153,7 +153,7 @@ CUDA_VISIBLE_DEVICES=0 python tools/eval.py -c configs/picodet/picodet_s_640_voc
 CUDA_VISIBLE_DEVICES=0 python tools/infer.py -c configs/ppyolo/ppyolov2_r50vd_dcn_voc_tea.yml -o weights=output/ppyolov2_r50vd_dcn_voc_tea/best_model.pdparams --infer_img=demo/tea_rename/1616810135.jpg
 
 # 推理文件夹里全部图片
-!CUDA_VISIBLE_DEVICES=0 python tools/infer.py -c configs/ppyolo/ppyolov2_r50vd_dcn_voc_tea.yml -o weights=output/ppyolov2_r50vd_dcn_voc_tea/best_model.pdparams --infer_dir=demo/tea_rename/
+CUDA_VISIBLE_DEVICES=0 python tools/infer.py -c configs/ppyolo/ppyolov2_r50vd_dcn_voc_tea.yml -o weights=output/ppyolov2_r50vd_dcn_voc_tea/best_model.pdparams --infer_dir=demo/tea_rename/
 ```
 
 可视化预测结果示例如下，可以看出老师动作可以有效检测出来：
@@ -176,7 +176,7 @@ python tools/export_model.py -c configs/ppyolo/ppyolov2_r50vd_dcn_voc_tea.yml -o
 接下来使用Paddle Inference python高性能预测接口，在终端输入以下命令即可：
 ```Shell
 # 移动端模型推理
-!python deploy/python/infer.py --model_dir=./output_inference_mobile/picodet_s_640_voc_tea/ --image_file=./demo/tea_rename/1616809969.jpg --device=GPU
+python deploy/python/infer.py --model_dir=./output_inference_mobile/picodet_s_640_voc_tea/ --image_file=./demo/tea_rename/1616809969.jpg --device=GPU
 
 # 服务端模型推理
 # # 开启服务
